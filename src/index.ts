@@ -7,7 +7,14 @@ import { RequestHandler } from "./handler/request";
 const app = new Hono();
 
 app.use(logger());
-app.use("/*", cors());
+app.use("/*", cors({
+  origin: '*',
+  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowHeaders: ['Content-Type', 'Authorization'],
+  exposeHeaders: ['Content-Length', 'X-Kuma-Revision'],
+  maxAge: 600,
+  credentials: true,
+}));
 
 app.get("/", (c) => {
   return c.text(" This is the proxy to use it after the url add /fetch?url= ");
